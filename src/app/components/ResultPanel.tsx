@@ -11,7 +11,7 @@ type ResultPanelProps = {
 
 export default function ResultPanel({ result, loading, handleFlip }: ResultPanelProps) {
     return (
-        <aside className="rounded-2xl border-2 border-dashed border-slate-600 p-6 bg-slate-900 h-full flex flex-col justify-center text-center">
+        <aside className="rounded-2xl border-2 border-dashed border-slate-600 p-6 bg-slate-900/80 h-full flex flex-col justify-center text-center">
             <div className="min-h-[400px] flex flex-col justify-center">
                 {loading ? (
                     <div className="animate-pulse">
@@ -30,7 +30,7 @@ export default function ResultPanel({ result, loading, handleFlip }: ResultPanel
                             {typeof result.score === "number" && (
                                 <div className="mt-4">
                                     <p className="text-sm text-slate-400">Confianza</p>
-                                    <div className="relative h-2 w-full max-w-xs mx-auto mt-1 rounded-full bg-slate-700 overflow-hidden">
+                                    <div className="relative h-2 w-full max-w-xs mx-auto mt-1 rounded-full bg-slate-700 overflow-hidden ">
                                         <div
                                             className="absolute inset-y-0 left-0 bg-sky-400 rounded-full transition-all duration-700 ease-out"
                                             style={{ width: `${result.score * 100}%` }}

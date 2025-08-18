@@ -68,10 +68,10 @@ export default function XrayDropzone(props: XrayDropzoneProps) {
             onClick={() => inputRef.current?.click()}
             className={[
                 "relative rounded-2xl border-2 border-dashed p-4 sm:p-6",
-                "bg-gradient-to-br from-slate-900 to-slate-800",
+                "bg-gradient-to-br from-slate-900 to-slate-800/70",
                 "h-full flex flex-col cursor-pointer transition-all duration-300",
                 "min-h-[400px]",
-                dragActive ? "border-sky-400 shadow-[0_0_0_3px_rgba(56,189,248,.25)]" : "border-slate-600",
+                dragActive ? "border-sky-400 shadow-[0_0_0_3px_rgba(56,189,248,.25)" : "border-slate-600",
             ].join(" ")}
         >
             <div className="flex-1 relative grid place-items-center overflow-hidden rounded-xl perspective-1000">
