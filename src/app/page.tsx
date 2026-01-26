@@ -53,7 +53,7 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-slate-50 flex flex-col">
       {/* Navbar Superior */}
-      <nav className="bg-white border-b border-slate-200 px-6 py-4 sticky top-0 z-50 shadow-sm/50 backdrop-blur-md bg-white/90">
+      <nav className="bg-white border-b border-slate-200 px-6 py-4 sticky top-0 z-50 shadow-sm/50 backdrop-blur-md">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="bg-blue-600 p-1.5 rounded-lg shadow-lg shadow-blue-200">
