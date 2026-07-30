@@ -1,29 +1,43 @@
 @import "tailwindcss";
 
-
-@layer base {
-  :root {
-    --background: 255 255 255;
-    --foreground: 23 23 23;
-  }
-
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --background: 10 10 10;
-      --foreground: 237 237 237;
-    }
-  }
-
- 
-  body {
-    background-color: rgb(var(--background));
-    color: rgb(var(--foreground));
-    font-family: system-ui, -apple-system, sans-serif; 
-  }
+body {
+  font-family: var(--font-jakarta), system-ui, -apple-system, sans-serif;
 }
 
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-outfit), system-ui, -apple-system, sans-serif;
+}
 
-@theme {
-  --color-background: rgb(var(--background));
-  --color-foreground: rgb(var(--foreground));
+/* Glassmorphism & Custom Animations */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+.dark .glass-panel {
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(51, 65, 85, 0.5);
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, #2563eb 0%, #7c3aed 50%, #db2777 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gradient-glow {
+  box-shadow: 0 0 50px -10px rgba(37, 99, 235, 0.25);
+}
+
+@keyframes pulse-subtle {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.85; transform: scale(1.02); }
+}
+
+.animate-pulse-subtle {
+  animation: pulse-subtle 4s infinite ease-in-out;
 }

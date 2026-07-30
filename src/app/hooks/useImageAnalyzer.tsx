@@ -1,11 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 
 export interface ModelAnalysis {
   model_name: string;
   prediction: string;
-  confidence: string;
+  confidence: string | number;
   heatmap: string | null;
 }
 
@@ -15,32 +15,54 @@ export interface AnalysisResult {
   original_image: string;
 }
 
+const API_BASE_URL =
+  process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+
 export const useImageAnalyzer = () => {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<AnalysisResult | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const activeObjUrlRef = useRef<string | null>(null);
+
+  const cleanupObjectUrl = () => {
+    if (activeObjUrlRef.current) {
+      URL.revokeObjectURL(activeObjUrlRef.current);
+      activeObjUrlRef.current = null;
+    }
+  };
+
+  useEffect(() => {
+    return () => {
+      cleanupObjectUrl();
+    };
+  }, []);
 
   const analyzeImage = async (
     file: File,
-    mode: "comparison" | "model_a" | "model_b" = "comparison",
+    mode: "comparison" | "model_a" | "model_b" = "comparison"
   ) => {
     setLoading(true);
     setError(null);
-    setResult(null);
 
     const formData = new FormData();
     formData.append("file", file);
     formData.append("mode", mode);
 
     try {
-      const response = await fetch("http://localhost:8000/predict", {
+      const response = await fetch(`${API_BASE_URL}/predict`, {
         method: "POST",
         body: formData,
       });
 
       if (!response.ok) {
-        const errData = await response.json();
-        throw new Error(errData.detail || "Error de conexión con el servidor");
+        let errorMsg = "Server connection error";
+        try {
+          const errData = await response.json();
+          errorMsg = errData.detail || errData.error || errorMsg;
+        } catch {
+          errorMsg = `Server error (${response.status})`;
+        }
+        throw new Error(errorMsg);
       }
 
       const data = await response.json();
@@ -49,23 +71,28 @@ export const useImageAnalyzer = () => {
         throw new Error(data.error);
       }
 
+      cleanupObjectUrl();
+      const newObjUrl = URL.createObjectURL(file);
+      activeObjUrlRef.current = newObjUrl;
+
       setResult({
         left: data.left,
         right: data.right,
-        original_image: URL.createObjectURL(file),
+        original_image: newObjUrl,
       });
     } catch (err: any) {
       console.error(err);
-      setError(err.message || "No se pudo procesar la imagen");
+      setError(err.message || "Failed to process image");
     } finally {
       setLoading(false);
     }
   };
 
   const resetAnalysis = () => {
+    cleanupObjectUrl();
     setResult(null);
     setError(null);
   };
 
-  return { analyzeImage, result, loading, error, resetAnalysis };
+  return { analyzeImage, result, loading, error, resetAnalysis, API_BASE_URL };
 };
