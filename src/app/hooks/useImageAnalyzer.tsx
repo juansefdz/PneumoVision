@@ -15,9 +15,8 @@ export interface AnalysisResult {
   original_image: string;
 }
 
-const rawApiUrl =
-  process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
-const API_BASE_URL = rawApiUrl.replace(/\/+$/, "");
+// Usar la ruta proxy del mismo origen (/api/backend) para evitar que bloqueadores de navegador (AdBlock) o antivirus filtren peticiones a dominios externos.
+const API_BASE_URL = "/api/backend";
 
 export const useImageAnalyzer = () => {
   const [loading, setLoading] = useState(false);
