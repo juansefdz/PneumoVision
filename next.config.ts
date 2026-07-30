@@ -1,6 +1,11 @@
 import type { NextConfig } from "next";
 
-const rawBackendUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+// URL por defecto del backend de producción en Render
+const rawBackendUrl =
+  process.env.NEXT_PUBLIC_API_URL ||
+  process.env.BACKEND_URL ||
+  "https://pneumovision-python.onrender.com";
+
 const cleanBackendUrl = rawBackendUrl.replace(/\/+$/, "");
 
 const nextConfig: NextConfig = {
