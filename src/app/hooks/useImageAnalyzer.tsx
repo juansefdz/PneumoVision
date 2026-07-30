@@ -15,8 +15,27 @@ export interface AnalysisResult {
   original_image: string;
 }
 
-// Usar la ruta proxy del mismo origen (/api/backend) para evitar que bloqueadores de navegador (AdBlock) o antivirus filtren peticiones a dominios externos.
-const API_BASE_URL = "/api/backend";
+const PROD_DIRECT_URL = "https://pneumovision-python.onrender.com";
+
+export const fetchWithFallback = async (endpoint: string, options?: RequestInit) => {
+  try {
+    const res = await fetch(`/api/backend${endpoint}`, options);
+    if (res.ok) return res;
+    if (res.status === 502 || res.status === 504 || res.status === 503) {
+      console.warn(
+        `[PneumoVision] Proxy returned ${res.status} (Render cold start). Retrying directly to Render URL...`
+      );
+      return await fetch(`${PROD_DIRECT_URL}${endpoint}`, options);
+    }
+    return res;
+  } catch (err) {
+    console.warn(
+      "[PneumoVision] Proxy request failed. Retrying directly to Render URL...",
+      err
+    );
+    return await fetch(`${PROD_DIRECT_URL}${endpoint}`, options);
+  }
+};
 
 export const useImageAnalyzer = () => {
   const [loading, setLoading] = useState(false);
@@ -49,7 +68,7 @@ export const useImageAnalyzer = () => {
     formData.append("mode", mode);
 
     try {
-      const response = await fetch(`${API_BASE_URL}/predict`, {
+      const response = await fetchWithFallback("/predict", {
         method: "POST",
         body: formData,
       });
@@ -94,5 +113,5 @@ export const useImageAnalyzer = () => {
     setError(null);
   };
 
-  return { analyzeImage, result, loading, error, resetAnalysis, API_BASE_URL };
+  return { analyzeImage, result, loading, error, resetAnalysis };
 };

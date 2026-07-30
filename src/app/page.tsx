@@ -4,7 +4,7 @@ import { useState, useMemo, useEffect } from "react";
 import XrayDropzone from "./components/XrayDropzone";
 import ResultPanel from "./components/ResultPanel";
 import ProjectInfoModal from "./components/ProjectInfoModal";
-import { useImageAnalyzer } from "./hooks/useImageAnalyzer";
+import { useImageAnalyzer, fetchWithFallback } from "./hooks/useImageAnalyzer";
 import {
   Activity,
   BrainCircuit,
@@ -17,7 +17,7 @@ import {
 } from "lucide-react";
 
 export default function Home() {
-  const { analyzeImage, result, loading, error, resetAnalysis, API_BASE_URL } =
+  const { analyzeImage, result, loading, error, resetAnalysis } =
     useImageAnalyzer();
 
   const [viewMode, setViewMode] = useState<
@@ -31,8 +31,8 @@ export default function Home() {
   useEffect(() => {
     const checkHealth = async () => {
       try {
-        console.log("[PneumoVision API] Checking health at:", `${API_BASE_URL}/health`);
-        const res = await fetch(`${API_BASE_URL}/health`);
+        console.log("[PneumoVision API] Checking health...");
+        const res = await fetchWithFallback("/health");
         if (res.ok) {
           console.log("[PneumoVision API] Connected successfully!");
           setServerStatus("online");
@@ -46,7 +46,7 @@ export default function Home() {
       }
     };
     checkHealth();
-  }, [API_BASE_URL]);
+  }, []);
 
   const previewUrl = useMemo(() => {
     return currentFile ? URL.createObjectURL(currentFile) : null;
