@@ -3,6 +3,7 @@
 import { useState, useMemo, useEffect } from "react";
 import XrayDropzone from "./components/XrayDropzone";
 import ResultPanel from "./components/ResultPanel";
+import ProjectInfoModal from "./components/ProjectInfoModal";
 import { useImageAnalyzer } from "./hooks/useImageAnalyzer";
 import {
   Activity,
@@ -12,6 +13,7 @@ import {
   FileImage,
   SplitSquareHorizontal,
   ExternalLink,
+  Info,
 } from "lucide-react";
 
 export default function Home() {
@@ -24,6 +26,7 @@ export default function Home() {
 
   const [currentFile, setCurrentFile] = useState<File | null>(null);
   const [serverStatus, setServerStatus] = useState<"checking" | "online" | "offline">("checking");
+  const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
 
   useEffect(() => {
     const checkHealth = async () => {
@@ -249,8 +252,8 @@ export default function Home() {
 
       {/* Footer */}
       <footer className="py-6 text-center border-t border-slate-200 bg-white/50 backdrop-blur-sm">
-        <p className="text-sm text-slate-500 flex items-center justify-center gap-2">
-          Developed by{" "}
+        <div className="flex flex-wrap items-center justify-center gap-3 text-sm text-slate-500">
+          <span>Developed by</span>
           <a
             href="https://www.linkedin.com/in/juansefdz/"
             target="_blank"
@@ -260,8 +263,22 @@ export default function Home() {
             Juansefdz.DEV
             <ExternalLink className="w-3 h-3" />
           </a>
-        </p>
+          <span className="text-slate-300">•</span>
+          <button
+            onClick={() => setIsInfoModalOpen(true)}
+            className="inline-flex items-center gap-1.5 px-3 py-1 bg-blue-50 hover:bg-blue-100 text-blue-700 text-xs font-bold rounded-full border border-blue-200 transition-all shadow-xs hover:scale-105"
+          >
+            <Info className="w-3.5 h-3.5" />
+            Project Architecture & Info
+          </button>
+        </div>
       </footer>
+
+      {/* Project Overview Modal */}
+      <ProjectInfoModal
+        isOpen={isInfoModalOpen}
+        onClose={() => setIsInfoModalOpen(false)}
+      />
     </main>
   );
 }
