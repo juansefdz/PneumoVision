@@ -28,10 +28,17 @@ export default function Home() {
   useEffect(() => {
     const checkHealth = async () => {
       try {
+        console.log("[PneumoVision API] Checking health at:", `${API_BASE_URL}/health`);
         const res = await fetch(`${API_BASE_URL}/health`);
-        if (res.ok) setServerStatus("online");
-        else setServerStatus("offline");
-      } catch {
+        if (res.ok) {
+          console.log("[PneumoVision API] Connected successfully!");
+          setServerStatus("online");
+        } else {
+          console.warn("[PneumoVision API] Server returned status:", res.status);
+          setServerStatus("offline");
+        }
+      } catch (err) {
+        console.error("[PneumoVision API] Health check failed:", err);
         setServerStatus("offline");
       }
     };
