@@ -10,7 +10,9 @@ import {
   Linkedin,
   ExternalLink,
   CheckCircle2,
-  Cpu,
+  Award,
+  GraduationCap,
+  Building2,
 } from "lucide-react";
 
 interface ProjectInfoModalProps {
@@ -65,7 +67,7 @@ export default function ProjectInfoModal({
               <Activity className="w-6 h-6 text-blue-200" />
             </div>
             <span className="text-xs font-bold uppercase tracking-wider bg-white/20 px-3 py-1 rounded-full text-white/90">
-              Project Architecture & Overview
+              Project Architecture & Accreditation
             </span>
           </div>
 
@@ -79,6 +81,29 @@ export default function ProjectInfoModal({
 
         {/* Content Scrollable Body */}
         <div className="p-6 sm:p-8 space-y-6 max-h-[65vh] overflow-y-auto text-slate-600 leading-relaxed text-sm">
+          {/* Section: Institutional Certification & Endorsement */}
+          <div className="bg-gradient-to-r from-amber-50/80 via-amber-50 to-orange-50 p-5 rounded-2xl border border-amber-200/80 space-y-3 shadow-xs">
+            <div className="flex items-center gap-2 text-amber-900 font-extrabold text-sm uppercase tracking-wider">
+              <Award className="w-5 h-5 text-amber-600 shrink-0" />
+              <span>Institutional Endorsement & Certification</span>
+            </div>
+
+            <p className="text-slate-700 text-xs sm:text-sm leading-relaxed">
+              Developed by <strong>Juan Sebastián Fernández Montoya</strong> as a capstone implementation for the <strong>Intermediate AI Bootcamp (159 Hours)</strong> under <strong>Talento Tech</strong>.
+            </p>
+
+            <div className="pt-2 border-t border-amber-200/60 grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-slate-600">
+              <div className="flex items-center gap-2 bg-white/80 p-2 rounded-xl border border-amber-100">
+                <Building2 className="w-4 h-4 text-amber-600 shrink-0" />
+                <span><strong>MinTIC Colombia</strong> & <strong>IU Training</strong></span>
+              </div>
+              <div className="flex items-center gap-2 bg-white/80 p-2 rounded-xl border border-amber-100">
+                <GraduationCap className="w-4 h-4 text-amber-600 shrink-0" />
+                <span><strong>Universidad de Antioquia</strong> & <strong>U. de Caldas</strong></span>
+              </div>
+            </div>
+          </div>
+
           {/* Section 1: Purpose */}
           <div className="space-y-2">
             <h3 className="text-base font-bold text-slate-900 flex items-center gap-2">
@@ -140,7 +165,7 @@ export default function ProjectInfoModal({
                 Let's Connect & Collaborate!
               </h4>
               <p className="text-xs sm:text-sm text-slate-600 max-w-md mx-auto">
-                Hi! I'm <strong>Juansefdz</strong>, developer of PneumoVision AI. I build high-performance AI, Deep Learning pipelines, and modern Web Applications. Open for technical opportunities, feedback, and collaboration!
+                Hi! I'm <strong>Juan Sebastián Fernández Montoya</strong>, developer of PneumoVision AI. Certified in Intermediate AI (159 hrs) by MinTIC, U. de Antioquia & U. de Caldas. Open for technical opportunities, AI pipelines, and collaboration!
               </p>
             </div>
 
